@@ -1,4 +1,4 @@
-from flask import Flask, render_template 
+from flask import Flask, render_template, request
 from data import eleves
 
 app = Flask(__name__)
@@ -14,7 +14,15 @@ def index():
 def list_eleves(): 
     return render_template("list_eleves.html", students=eleves)
 
-
+@app.route("/all")
+def list_all():
+    cl = request.args.get("classe")
+    print(cl)
+    if cl:
+        elvs  = [etd for etd in eleves if etd["classe"] == cl]
+        return render_template("test.html", students=elvs)
+    else: 
+        return render_template("test.html", students=eleves)
 
 if __name__ == "__main__": 
     app.run(debug=True )
